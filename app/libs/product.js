@@ -1,13 +1,15 @@
 export const product = {
-    id: ~~(Math.random() * 100) + 1,
+    // Treat this as an event with ticket tiers
+    id: `EVT-${~~(Math.random() * 100) + 1}`,
     image: "/img.png",
-    name: "LEVI'S® WOMEN'S XL TRUCKER JACKET",
-    price: 350000,
-    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsa accusantium, aspernatur provident beatae corporis veniam atque facilis, consequuntur assumenda, vitae dignissimos iste exercitationem dolor eveniet alias eos ullam nesciunt voluptatum",
-    colors: [
-        { value: "putih", label: "Putih" },
-        { value: "biru", label: "Biru" },
-        { value: "coklat", label: "Coklat" },
-        { value: "kuning", label: "Kuning" }
-    ]
-}
+    name: "Summer Fest 2025",
+    date: "Sat, Nov 15, 2025 • 19:00",
+    venue: "Jakarta Convention Center",
+    description:
+        "Experience an unforgettable night with top artists, dazzling lights, and immersive stages. Choose your ticket tier and secure your spot now!",
+    tickets: [
+        { id: "GA", name: "General Admission", price: 150000, stock: 500 },
+        { id: "VIP", name: "VIP", price: 350000, stock: 100 },
+        { id: "VVIP", name: "VVIP", price: 650000, stock: 50 },
+    ],
+};

@@ -1,7 +1,5 @@
 import Midtrans from "midtrans-client";
 
-// import { NextResponse } from "next-server";
-
 let snap = new Midtrans.Snap({
   isProduction: false,
   serverKey: process.env.SECRET,
@@ -9,25 +7,31 @@ let snap = new Midtrans.Snap({
 });
 
 export async function POST(request) {
-  const { id, productName, price, quantity } = await request.json();
+  const { orderId, items, customer } = await request.json();
 
-  let parameter = {
-    item_details: {
-      name: productName,
-      price: price,
-      quantity: quantity,
-    },
+  // Ensure items array
+  const item_details = Array.isArray(items) ? items : [];
+  const gross_amount = item_details.reduce(
+    (sum, it) => sum + (it.price || 0) * (it.quantity || 0),
+    0
+  );
+
+  const parameter = {
+    item_details,
     transaction_details: {
-      order_id: id,
-      gross_amount: price * quantity,
+      order_id: orderId,
+      gross_amount,
+    },
+    customer_details: customer ? {
+      first_name: customer.name,
+      email: customer.email,
+    } : undefined,
+    credit_card: {
+      secure: true,
     },
   };
 
   const token = await snap.createTransactionToken(parameter);
 
-  console.log(token);
-
-  return Response.json({
-    token
-  })
+  return Response.json({ token });
 }
